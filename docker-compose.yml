@@ -1,0 +1,31 @@
+version: "3.6"
+services:
+  postgres:
+    container_name: postgres-todo-nexus
+    image: postgres:latest
+    ports:
+    - "3355:5432"
+    volumes:
+    - /data/postgres:/data/postgres
+    env_file:
+    - docker.env
+    networks:
+    - postgres
+ 
+  pgadmin:
+    links:
+    - postgres:postgres-todo-nexus
+    container_name: pgadmin-todo-nexus
+    image: dpage/pgadmin4
+    ports:
+    - "9871:80"
+    volumes:
+    - /data/pgadmin:/root/.pgadmin
+    env_file:
+    - docker.env
+    networks:
+    - postgres
+ 
+networks:
+  postgres:
+    driver: bridge
