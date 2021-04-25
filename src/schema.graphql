@@ -318,7 +318,8 @@ type TodoSubscriptionType {
   new: Todo
   old: Todo
   operation: OperationsTypeEnum
-  table: String
+  table_name: String
+  when: WhenTypeEnum
 }
 
 input TodoUpdateInput {
@@ -343,4 +344,9 @@ input TodoWhereInput {
 
 input TodoWhereUniqueInput {
   id: Int
+}
+
+enum WhenTypeEnum {
+  AFTER
+  BEFORE
 }

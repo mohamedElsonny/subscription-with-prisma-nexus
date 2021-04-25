@@ -273,6 +273,7 @@ export interface NexusGenInputs {
 export interface NexusGenEnums {
   OperationsTypeEnum: "DELETE" | "INSERT" | "UPDATE"
   QueryMode: "default" | "insensitive"
+  WhenTypeEnum: "AFTER" | "BEFORE"
 }
 
 export interface NexusGenScalars {
@@ -310,7 +311,8 @@ export interface NexusGenObjects {
     new?: NexusGenRootTypes['Todo'] | null; // Todo
     old?: NexusGenRootTypes['Todo'] | null; // Todo
     operation?: NexusGenEnums['OperationsTypeEnum'] | null; // OperationsTypeEnum
-    table?: string | null; // String
+    table_name?: string | null; // String
+    when?: NexusGenEnums['WhenTypeEnum'] | null; // WhenTypeEnum
   }
 }
 
@@ -363,7 +365,8 @@ export interface NexusGenFieldTypes {
     new: NexusGenRootTypes['Todo'] | null; // Todo
     old: NexusGenRootTypes['Todo'] | null; // Todo
     operation: NexusGenEnums['OperationsTypeEnum'] | null; // OperationsTypeEnum
-    table: string | null; // String
+    table_name: string | null; // String
+    when: NexusGenEnums['WhenTypeEnum'] | null; // WhenTypeEnum
   }
 }
 
@@ -406,7 +409,8 @@ export interface NexusGenFieldTypeNames {
     new: 'Todo'
     old: 'Todo'
     operation: 'OperationsTypeEnum'
-    table: 'String'
+    table_name: 'String'
+    when: 'WhenTypeEnum'
   }
 }
 

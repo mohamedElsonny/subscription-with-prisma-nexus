@@ -9,7 +9,7 @@ import * as path from "path";
 import { ObjectDefinitionBlock } from "nexus/dist/blocks";
 
 import { Context, createContext, pubsub } from "./context";
-import { createSubscribers } from "./listiningToPGEvents";
+import { CreateSubscription, IEventPayload } from "./listiningToPGEvents";
 
 import { Todo } from ".prisma/client";
 import { TODO_INSERT, TODO_UPDATE, TODO_DELETE } from "./channels";
@@ -63,13 +63,19 @@ const Mutation = objectType({
 const TodoSubscriptionType = objectType({
   name: "TodoSubscriptionType",
   definition(t) {
-    t.field("table", {
+    t.field("table_name", {
       type: "String",
     });
     t.field("operation", {
       type: enumType({
         name: "OperationsTypeEnum",
         members: ["INSERT", "UPDATE", "DELETE"],
+      }),
+    });
+    t.field("when", {
+      type: enumType({
+        name: "WhenTypeEnum",
+        members: ["BEFORE", "AFTER"],
       }),
     });
     t.nullable.field("new", {
@@ -87,8 +93,11 @@ const TodoCreated = subscriptionField("todoSubscription", {
   resolve: (payload) => payload,
 });
 
-createSubscribers(["Todo", "Task"], (payload) => {
-  const channel = `${payload.table.toUpperCase()}_${payload.operation}`;
+const subscriptionClient = new CreateSubscription(process.env.DATABASE_URL);
+
+subscriptionClient.createListeners(["Todo"]);
+subscriptionClient.recieveEvents((payload) => {
+  const channel = `${payload.table_name.toUpperCase()}_${payload.operation}`;
   pubsub.publish(channel, payload);
 });
 
