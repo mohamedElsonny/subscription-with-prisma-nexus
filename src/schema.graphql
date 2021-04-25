@@ -147,6 +147,7 @@ input StringNullableFilter {
 }
 
 type Subscription {
+  taskSubscription: TaskSubscriptionType
   todoSubscription: TodoSubscriptionType
 }
 
@@ -216,6 +217,14 @@ input TaskScalarWhereInput {
   name: StringFilter
   todoId: IntFilter
   updatedAt: DateTimeFilter
+}
+
+type TaskSubscriptionType {
+  new: Task
+  old: Task
+  operation: OperationsTypeEnum
+  table_name: String
+  when: WhenTypeEnum
 }
 
 input TaskUpdateManyMutationInput {

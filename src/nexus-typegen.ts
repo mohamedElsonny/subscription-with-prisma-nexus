@@ -300,6 +300,13 @@ export interface NexusGenObjects {
     todoId: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
   }
+  TaskSubscriptionType: { // root type
+    new?: NexusGenRootTypes['Task'] | null; // Task
+    old?: NexusGenRootTypes['Task'] | null; // Task
+    operation?: NexusGenEnums['OperationsTypeEnum'] | null; // OperationsTypeEnum
+    table_name?: string | null; // String
+    when?: NexusGenEnums['WhenTypeEnum'] | null; // WhenTypeEnum
+  }
   Todo: { // root type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
     description?: string | null; // String
@@ -342,6 +349,7 @@ export interface NexusGenFieldTypes {
     todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
   }
   Subscription: { // field return type
+    taskSubscription: NexusGenRootTypes['TaskSubscriptionType'] | null; // TaskSubscriptionType
     todoSubscription: NexusGenRootTypes['TodoSubscriptionType'] | null; // TodoSubscriptionType
   }
   Task: { // field return type
@@ -352,6 +360,13 @@ export interface NexusGenFieldTypes {
     todo: NexusGenRootTypes['Todo']; // Todo!
     todoId: number; // Int!
     updatedAt: NexusGenScalars['DateTime']; // DateTime!
+  }
+  TaskSubscriptionType: { // field return type
+    new: NexusGenRootTypes['Task'] | null; // Task
+    old: NexusGenRootTypes['Task'] | null; // Task
+    operation: NexusGenEnums['OperationsTypeEnum'] | null; // OperationsTypeEnum
+    table_name: string | null; // String
+    when: NexusGenEnums['WhenTypeEnum'] | null; // WhenTypeEnum
   }
   Todo: { // field return type
     createdAt: NexusGenScalars['DateTime']; // DateTime!
@@ -386,6 +401,7 @@ export interface NexusGenFieldTypeNames {
     todos: 'Todo'
   }
   Subscription: { // field return type name
+    taskSubscription: 'TaskSubscriptionType'
     todoSubscription: 'TodoSubscriptionType'
   }
   Task: { // field return type name
@@ -396,6 +412,13 @@ export interface NexusGenFieldTypeNames {
     todo: 'Todo'
     todoId: 'Int'
     updatedAt: 'DateTime'
+  }
+  TaskSubscriptionType: { // field return type name
+    new: 'Task'
+    old: 'Task'
+    operation: 'OperationsTypeEnum'
+    table_name: 'String'
+    when: 'WhenTypeEnum'
   }
   Todo: { // field return type name
     createdAt: 'DateTime'
