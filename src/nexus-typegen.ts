@@ -172,6 +172,13 @@ export interface NexusGenInputs {
     todoId?: NexusGenInputs['IntFilter'] | null; // IntFilter
     updatedAt?: NexusGenInputs['DateTimeFilter'] | null; // DateTimeFilter
   }
+  TaskUpdateInput: { // input type
+    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    description?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    name?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    todo?: NexusGenInputs['TodoUpdateOneRequiredWithoutTasksInput'] | null; // TodoUpdateOneRequiredWithoutTasksInput
+    updatedAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+  }
   TaskUpdateManyMutationInput: { // input type
     createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
     description?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
@@ -254,6 +261,23 @@ export interface NexusGenInputs {
     title?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
     updatedAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
   }
+  TodoUpdateOneRequiredWithoutTasksInput: { // input type
+    connect?: NexusGenInputs['TodoWhereUniqueInput'] | null; // TodoWhereUniqueInput
+    connectOrCreate?: NexusGenInputs['TodoCreateOrConnectWithoutTasksInput'] | null; // TodoCreateOrConnectWithoutTasksInput
+    create?: NexusGenInputs['TodoCreateWithoutTasksInput'] | null; // TodoCreateWithoutTasksInput
+    update?: NexusGenInputs['TodoUpdateWithoutTasksInput'] | null; // TodoUpdateWithoutTasksInput
+    upsert?: NexusGenInputs['TodoUpsertWithoutTasksInput'] | null; // TodoUpsertWithoutTasksInput
+  }
+  TodoUpdateWithoutTasksInput: { // input type
+    createdAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+    description?: NexusGenInputs['NullableStringFieldUpdateOperationsInput'] | null; // NullableStringFieldUpdateOperationsInput
+    title?: NexusGenInputs['StringFieldUpdateOperationsInput'] | null; // StringFieldUpdateOperationsInput
+    updatedAt?: NexusGenInputs['DateTimeFieldUpdateOperationsInput'] | null; // DateTimeFieldUpdateOperationsInput
+  }
+  TodoUpsertWithoutTasksInput: { // input type
+    create: NexusGenInputs['TodoCreateWithoutTasksInput']; // TodoCreateWithoutTasksInput!
+    update: NexusGenInputs['TodoUpdateWithoutTasksInput']; // TodoUpdateWithoutTasksInput!
+  }
   TodoWhereInput: { // input type
     AND?: NexusGenInputs['TodoWhereInput'][] | null; // [TodoWhereInput!]
     NOT?: NexusGenInputs['TodoWhereInput'][] | null; // [TodoWhereInput!]
@@ -286,9 +310,6 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
-  AffectedRowsOutput: { // root type
-    count: number; // Int!
-  }
   Mutation: {};
   Query: {};
   Subscription: {};
@@ -334,17 +355,19 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
-  AffectedRowsOutput: { // field return type
-    count: number; // Int!
-  }
   Mutation: { // field return type
     createOneTask: NexusGenRootTypes['Task']; // Task!
     createOneTodo: NexusGenRootTypes['Todo']; // Todo!
+    deleteOneTask: NexusGenRootTypes['Task'] | null; // Task
     deleteOneTodo: NexusGenRootTypes['Todo'] | null; // Todo
-    updateManyTask: NexusGenRootTypes['AffectedRowsOutput']; // AffectedRowsOutput!
+    dummyMutation: string | null; // String
+    updateOneTask: NexusGenRootTypes['Task'] | null; // Task
     updateOneTodo: NexusGenRootTypes['Todo'] | null; // Todo
   }
   Query: { // field return type
+    dummyQuery: string | null; // String
+    task: NexusGenRootTypes['Task'] | null; // Task
+    tasks: NexusGenRootTypes['Task'][]; // [Task!]!
     todo: NexusGenRootTypes['Todo'] | null; // Todo
     todos: NexusGenRootTypes['Todo'][]; // [Todo!]!
   }
@@ -386,17 +409,19 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
-  AffectedRowsOutput: { // field return type name
-    count: 'Int'
-  }
   Mutation: { // field return type name
     createOneTask: 'Task'
     createOneTodo: 'Todo'
+    deleteOneTask: 'Task'
     deleteOneTodo: 'Todo'
-    updateManyTask: 'AffectedRowsOutput'
+    dummyMutation: 'String'
+    updateOneTask: 'Task'
     updateOneTodo: 'Todo'
   }
   Query: { // field return type name
+    dummyQuery: 'String'
+    task: 'Task'
+    tasks: 'Task'
     todo: 'Todo'
     todos: 'Todo'
   }
@@ -445,12 +470,15 @@ export interface NexusGenArgTypes {
     createOneTodo: { // args
       data: NexusGenInputs['TodoCreateInput']; // TodoCreateInput!
     }
+    deleteOneTask: { // args
+      where: NexusGenInputs['TaskWhereUniqueInput']; // TaskWhereUniqueInput!
+    }
     deleteOneTodo: { // args
       where: NexusGenInputs['TodoWhereUniqueInput']; // TodoWhereUniqueInput!
     }
-    updateManyTask: { // args
-      data: NexusGenInputs['TaskUpdateManyMutationInput']; // TaskUpdateManyMutationInput!
-      where?: NexusGenInputs['TaskWhereInput'] | null; // TaskWhereInput
+    updateOneTask: { // args
+      data: NexusGenInputs['TaskUpdateInput']; // TaskUpdateInput!
+      where: NexusGenInputs['TaskWhereUniqueInput']; // TaskWhereUniqueInput!
     }
     updateOneTodo: { // args
       data: NexusGenInputs['TodoUpdateInput']; // TodoUpdateInput!
@@ -458,6 +486,16 @@ export interface NexusGenArgTypes {
     }
   }
   Query: {
+    task: { // args
+      where: NexusGenInputs['TaskWhereUniqueInput']; // TaskWhereUniqueInput!
+    }
+    tasks: { // args
+      after?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
+      before?: NexusGenInputs['TaskWhereUniqueInput'] | null; // TaskWhereUniqueInput
+      first?: number | null; // Int
+      last?: number | null; // Int
+      where?: NexusGenInputs['TaskWhereInput'] | null; // TaskWhereInput
+    }
     todo: { // args
       where: NexusGenInputs['TodoWhereUniqueInput']; // TodoWhereUniqueInput!
     }

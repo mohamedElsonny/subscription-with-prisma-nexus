@@ -2,10 +2,6 @@
 ### Do not make changes to this file directly
 
 
-type AffectedRowsOutput {
-  count: Int!
-}
-
 scalar DateTime
 
 input DateTimeFieldUpdateOperationsInput {
@@ -37,8 +33,10 @@ input IntFilter {
 type Mutation {
   createOneTask(data: TaskCreateInput!): Task!
   createOneTodo(data: TodoCreateInput!): Todo!
+  deleteOneTask(where: TaskWhereUniqueInput!): Task
   deleteOneTodo(where: TodoWhereUniqueInput!): Todo
-  updateManyTask(data: TaskUpdateManyMutationInput!, where: TaskWhereInput): AffectedRowsOutput!
+  dummyMutation: String
+  updateOneTask(data: TaskUpdateInput!, where: TaskWhereUniqueInput!): Task
   updateOneTodo(data: TodoUpdateInput!, where: TodoWhereUniqueInput!): Todo
 }
 
@@ -103,6 +101,9 @@ enum OperationsTypeEnum {
 }
 
 type Query {
+  dummyQuery: String
+  task(where: TaskWhereUniqueInput!): Task
+  tasks(after: TaskWhereUniqueInput, before: TaskWhereUniqueInput, first: Int, last: Int, where: TaskWhereInput): [Task!]!
   todo(where: TodoWhereUniqueInput!): Todo
   todos(after: TodoWhereUniqueInput, before: TodoWhereUniqueInput, first: Int, last: Int, where: TodoWhereInput): [Todo!]!
 }
@@ -227,6 +228,14 @@ type TaskSubscriptionType {
   when: WhenTypeEnum
 }
 
+input TaskUpdateInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  name: StringFieldUpdateOperationsInput
+  todo: TodoUpdateOneRequiredWithoutTasksInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
 input TaskUpdateManyMutationInput {
   createdAt: DateTimeFieldUpdateOperationsInput
   description: NullableStringFieldUpdateOperationsInput
@@ -337,6 +346,26 @@ input TodoUpdateInput {
   tasks: TaskUpdateManyWithoutTodoInput
   title: StringFieldUpdateOperationsInput
   updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input TodoUpdateOneRequiredWithoutTasksInput {
+  connect: TodoWhereUniqueInput
+  connectOrCreate: TodoCreateOrConnectWithoutTasksInput
+  create: TodoCreateWithoutTasksInput
+  update: TodoUpdateWithoutTasksInput
+  upsert: TodoUpsertWithoutTasksInput
+}
+
+input TodoUpdateWithoutTasksInput {
+  createdAt: DateTimeFieldUpdateOperationsInput
+  description: NullableStringFieldUpdateOperationsInput
+  title: StringFieldUpdateOperationsInput
+  updatedAt: DateTimeFieldUpdateOperationsInput
+}
+
+input TodoUpsertWithoutTasksInput {
+  create: TodoCreateWithoutTasksInput!
+  update: TodoUpdateWithoutTasksInput!
 }
 
 input TodoWhereInput {
